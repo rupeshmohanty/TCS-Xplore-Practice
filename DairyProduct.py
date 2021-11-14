@@ -1,63 +1,62 @@
 # Question Link: https://www.biochemithon.in/python-tutorials/python-programs/tcs-xplore-cpa-python-3/
 class DairyProduct:
-	def __init__(self,dairyId,dairyBrand,productType,price,grade):
-		self.dId = dairyId
-		self.dBrand = dairyBrand
-		self.pType = productType
-		self.price = price
-		self.grade = grade
+	def __init__(self,*args):
+		self.dairyId = args[0]
+		self.dairyBrand = args[1]
+		self.productType = args[2]
+		self.price = args[3]
+		self.grade = args[4]
 
 class ProductGrade:
-	def __init__(self,dairyList,weightageDict):
-		self.dList = dairyList
-		self.wDict = weightageDict
+	def __init__(self,*args):
+		self.dairyList = args[0]
+		self.weightageDict = args[1]
 
-	def priceBasedOnBrandAndType(self,dairyBrand,productType):
+	def priceBasedOnBrandAndType(self,dBrand,pType):
 		ans = []
-		for obj in self.dList:
-			if obj.dBrand.lower() == dairyBrand.lower() and obj.pType.lower() == productType.lower():
-				updatedPrice = obj.price + obj.price*self.wDict[obj.grade]/100
-				ans.append((brand,obj.price))
 
-		if(len(ans)):
+		for obj in dairyList:
+			if obj.dairyBrand.lower() == dBrand.lower() and obj.productType.lower() == pType.lower():
+				weightage = weightageDict[obj.grade]
+				obj.price += obj.price*weightage/100
+				ans.append((dBrand,obj.price))
+
+		if len(ans) > 0:
 			return ans
 		else:
 			return None
 
 if __name__ == "__main__":
+	dairyList = []
+	wDict = {}
+
 	n = int(input())
-	dairyProducts = []
 	for i in range(n):
 		dairyId = int(input())
 		dairyBrand = input()
 		productType = input()
 		price = int(input())
-		grade = input().lower()
-		
-		dp = DairyProduct(dairyId,dairyBrand,productType,price,grade)
+		grade = input()
 
-		dairyProducts.append(dp)
+		D = DairyProduct(dairyId,dairyBrand,productType,price,grade)
 
-	n1 = int(input())
+		dairyList.append(D)
 
-	weightageDict = {}
-
-	for i in range(n2):
-		grade = input().lower()
+	dictLen = int(input())
+	for i in range(dictLen):
+		key = input()
 		value = int(input())
 
-		weightageDict[grade] = value
+		wDict[key] = value
 
+	P = ProductGrade(dairyList,wDict)
+	dBrand = input()
+	pType = input()
 
-	pg = ProductGrade(dairyProducts,weightageDict)
-	dairyBrand = input()
-	productType = input()
-
-	price = pg.priceBasedOnBrandAndType(dairyBrand,productType)
-
-	if price:
-		for item in price:
-			print("Dairy Brand: ",item[0])
-			print("Price: ",item[1])
+	res = P.priceBasedOnBrandAndType(dBrand,pType)
+	
+	if res != None:
+		print("Dairy Brand: " + res[0])
+		print("Price: " + res[1])
 	else:
-		print("No dairy product found")
+		print('No dairy product found!')
