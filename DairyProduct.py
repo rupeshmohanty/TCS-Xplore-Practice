@@ -11,27 +11,27 @@ class ProductGrade:
 	def __init__(self,*args):
 		self.dairyList = args[0]
 		self.weightageDict = args[1]
-
+	
 	def priceBasedOnBrandAndType(self,dBrand,pType):
-		ans = []
+		price = 0
+		count = 0
 
 		for obj in dairyList:
-			if obj.dairyBrand.lower() == dBrand.lower() and obj.productType.lower() == pType.lower():
-				weightage = weightageDict[obj.grade]
-				obj.price += obj.price*weightage/100
-				ans.append((dBrand,obj.price))
-
-		if len(ans) > 0:
-			return ans
-		else:
+			if obj.dairyBrand.lower() == dBrand.lower() and obj.productType.lower() == pType:
+				updatedPrice = price + price*weightageDict[obj.grade]/100
+				count += 1
+		
+		if count == 0:
 			return None
+		else:
+			return updatedPrice
 
 if __name__ == "__main__":
+	noOfDairy = int(input())
 	dairyList = []
-	wDict = {}
+	wDict = dict()
 
-	n = int(input())
-	for i in range(n):
+	for i in range(noOfDairy):
 		dairyId = int(input())
 		dairyBrand = input()
 		productType = input()
@@ -39,24 +39,24 @@ if __name__ == "__main__":
 		grade = input()
 
 		D = DairyProduct(dairyId,dairyBrand,productType,price,grade)
-
 		dairyList.append(D)
 
-	dictLen = int(input())
-	for i in range(dictLen):
-		key = input()
-		value = int(input())
+	# count for dictionary elements!
+	n1 = int(input())
 
-		wDict[key] = value
-
+	for j in range(n1):
+		g = input()
+		w = int(input())
+		
+		wDict[g] = w
+	
 	P = ProductGrade(dairyList,wDict)
 	dBrand = input()
 	pType = input()
 
-	res = P.priceBasedOnBrandAndType(dBrand,pType)
-	
+	res = P.priceBasedOnBrandAndType(dBrand, pType)
 	if res != None:
-		print("Dairy Brand: " + res[0])
-		print("Price: " + res[1])
+		print(f'Dairy Brand: {dBrand}')
+		print(f'Price: {res}')
 	else:
-		print('No dairy product found!')
+		print("No dairy product found")
