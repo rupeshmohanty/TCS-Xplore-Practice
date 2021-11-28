@@ -2,43 +2,53 @@
 # Q1
 class Passenger:
 	def __init__(self,*args):
-		self.id = args[0]
-		self.name = args[1]
-		self.gender = args[2]
-		self.distance = args[3]
+		self.passengerName = args[0]
+		self.passengerAge = args[1]
+		self.distanceTravelled = args[2]
+	
+def calculateTicketFare(passengerList,farePerKM):
+	totalTicketFare = 0
 
-class Bill:
-	def __init__(self,pList):
-		self.pList = pList
+	for obj in passengerList:
+		price = 0
+		price = obj.distanceTravelled*farePerKM
 
-	def calDiscount(self,pid,discPerc):
-		discount = 0
-		for obj in self.pList:
-			if obj.id == pid:
-				discount = discPerc*obj.distance/100
-				break
+		if obj.passengerAge >= 60 or obj.passengerAge < 12:
+			tax = 0
+		elif obj.passengerAge >= 21 or obj.passengerAge <= 59:
+			tax = 0.12*price
+		elif obj.passengerAge >= 12 or obj.passengerAge <= 20:
+			tax = 0.1*price
+		
+		price+=tax
+		tprice+=price
+	
+	return tprice
 
-		return discount
+def Countseniorjunior(passengerList):
+	count=0
+	for obj in passengerList:
+		if obj.passengerAge >= 60 or obj.passengerAge < 12:
+			count += 1
+		
+	return count
 
 if __name__ == "__main__":
-	noOfPassengers = int(input())
-	passengerList = []
+	n = int(input())
+	pList = []
 
-	for i in range(noOfPassengers):
-		pid = input()
-		name = input()
-		gender = input()
-		distance = int(input())
+	for i in range(n):
+		passengerName = input()
+		passengerAge = int(input())
+		distanceTravelled = int(input())
 
-		P = Passenger(pid,name,gender,distance)
+		P = Passenger(passengerName,passengerAge,distanceTravelled)
+		pList.append(P)
+	
+	rate = int(input())
 
-		passengerList.append(P)
+	totalPrice = calculateTicketFare(pList, rate)
+	count = Countseniorjunior(pList)
 
-	B = Bill(passengerList)
-
-	passId = input()
-	perc = int(input())
-
-	discount = B.calDiscount(passId,perc)
-
-	print(f'discount of { passId } is: { discount }')
+	print(f'Total fare of all passengers: {totalPrice}')
+	print(f'Total count of junior and senior passengers: {count}')

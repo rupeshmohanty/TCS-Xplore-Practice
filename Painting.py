@@ -2,70 +2,75 @@
 class Painting:
 	def __init__(self,*args):
 		self.paintingId = args[0]
-		self.painterName = args[1]
-		self.paintingPrice = int(args[2])
+		self.paintingName = args[1]
+		self.paintingPrice = args[2]
 		self.paintingType = args[3]
-
+	
 class ShowRoom:
-	def __init__(self,plist):
-		self.paintingList = plist
-
-	# Get total painting price!
+	def __init__(self,*args):
+		self.paintingList = args[0]
+	
 	def getTotalPaintingPrice(self,pType):
-		c = 0
-		total_price = 0
-		for obj in self.paintingList:
+		count = 0
+		tprice = 0
+
+		for obj in paintingList:
 			if obj.paintingType.lower() == pType.lower():
-				total_price += obj.paintingPrice
-				c = 1
-
-		if c:
-			return total_price
-		else:
+				tprice += obj.paintingPrice
+				count += 1
+		
+		if count == 0:
 			return None
-
-	# To get painter with max count of paintings!
+		else:
+			return tprice
+	
 	def getPainterWithMaxCountOfPaintings(self):
-		nameCount = {}
+		cDict = dict()
 
-		for obj in self.paintingList:
-			if obj.painterName not in nameCount:
-				nameCount[obj.painterName] = 1
+		for obj in paintingList:
+			if obj.paintingName in cDict:
+				cDict[obj.paintingName] += 1
 			else:
-				nameCount[obj.painterName] += 1
+				cDict[obj.paintingName] = 1
+		
+		# sort dictionary on the basis of the values!
+		sort = dict(sorted(cDict.items(),key= lambda x : x[1]))
 
-		m = 0
-		name = ""
-		for i in list(nameCount.keys()):
-			if nameCount[i] > m:
-				m = nameCount[i]
-				name = i
+		maxArray = list(sort.values())
+		m = maxArray[0]
 
-		return name
+		res = ""
+
+		for k in list(sort.keys()):
+			if res == "":
+				if cDict[k] == m:
+					res = k
+			else:
+				if cDict[k] == m:
+					if cDict[k] < res:
+						res = cDict[k]
+		
+		return res
+
 
 if __name__ == "__main__":
+	n = int(input())
 	paintingList = []
-	noOfObj = int(input())
 
-	for i in range(noOfObj):
-		paintingId = input()
-		painterName = input()
+	for i in range(n):
+		paintingId = int(input())
+		paintingName = input()
 		paintingPrice = input()
 		paintingType = input()
 
-		P = Painting(paintingId,painterName,paintingPrice,paintingType)
-
+		P = Painting(paintingId,paintingName,paintingPrice,paintingType)
 		paintingList.append(P)
-
+	
+	pType = input()
 	S = ShowRoom(paintingList)
 
-	pType = input()
-	tot_price = S.getTotalPaintingPrice(pType)
+	totalPrice = S.getTotalPaintingPrice(pType)
 	name = S.getPainterWithMaxCountOfPaintings()
 
-	if tot_price != None:
-		print(tot_price)
-	else:
-		print("Painting not found")
-
-	print(name)
+	print(f'Total price: {totalPrice}')
+	print(f'Painter with most paintings: {name}')
