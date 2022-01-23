@@ -1,62 +1,57 @@
 # Question Link: https://www.biochemithon.in/python-tutorials/python-programs/tcs-xplore-cpa-python-3/
-class DairyProduct:
+class Dairyproduct:
 	def __init__(self,*args):
 		self.dairyId = args[0]
 		self.dairyBrand = args[1]
 		self.productType = args[2]
 		self.price = args[3]
 		self.grade = args[4]
-
+	
 class ProductGrade:
 	def __init__(self,*args):
 		self.dairyList = args[0]
 		self.weightageDict = args[1]
 	
 	def priceBasedOnBrandAndType(self,dBrand,pType):
-		price = 0
-		count = 0
-
-		for obj in dairyList:
-			if obj.dairyBrand.lower() == dBrand.lower() and obj.productType.lower() == pType:
-				updatedPrice = price + price*weightageDict[obj.grade]/100
-				count += 1
+		products = []
+		for obj in self.dairyList:
+			if obj.dairyBrand.lower() == dBrand.lower() and obj.productType.lower() == pType.lower():
+				uprice = obj.price + obj.price*self.weightageDict[obj.grade]/100
+				products.append((dBrand,uprice)) 
 		
-		if count == 0:
-			return None
+		if(len(products) > 0):
+			return products
 		else:
-			return updatedPrice
+			return None
 
 if __name__ == "__main__":
-	noOfDairy = int(input())
-	dairyList = []
-	wDict = dict()
+	dairyProducts = []
+	n = int(input())
 
-	for i in range(noOfDairy):
+	for i in range(n):
 		dairyId = int(input())
 		dairyBrand = input()
 		productType = input()
 		price = int(input())
 		grade = input()
-
-		D = DairyProduct(dairyId,dairyBrand,productType,price,grade)
-		dairyList.append(D)
-
-	# count for dictionary elements!
+		D = Dairyproduct(dairyId,dairyBrand,productType,price,grade)
+		dairyProducts.append(D)
+	
 	n1 = int(input())
-
+	wDict = dict()
 	for j in range(n1):
 		g = input()
-		w = int(input())
-		
-		wDict[g] = w
+		weightage = int(input())
+		wDict[g] = weightage
 	
-	P = ProductGrade(dairyList,wDict)
+	P = ProductGrade(dairyProducts,wDict)
 	dBrand = input()
 	pType = input()
-
 	res = P.priceBasedOnBrandAndType(dBrand, pType)
-	if res != None:
-		print(f'Dairy Brand: {dBrand}')
-		print(f'Price: {res}')
+
+	if res:
+		for i in res:
+			print(f"Dairy brand: { i[0] }")
+			print(f"Dairy price: { i[1] }")
 	else:
-		print("No dairy product found")
+		print("No dairy products found!")

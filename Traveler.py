@@ -8,50 +8,50 @@ class Traveler:
 
 class TravelAgency:
 	def __init__(self,*args):
-		travelerList = args[0]
+		self.travelerList = args[0]
+	
+	def countTravelersTraveledCountry(cname):
+		count = 0
 
-	def countTravelersTraveledCountry(self,country):
-		tcount = 0
+		for obj in self.travelerList:
+			if cname in obj.traveledCountry:
+				count += 1
+		
+		return count
+	
+	def getTravelerTravelledMaxCountry():
+		m = 0
+		name = []
 
-		for obj in travelerList:
-			for j in obj.traveledCountry:
-				if j.lower() == country.lower():
-					tcount += 1
-
-		return tcount
-
-	def getTravelerTraveledCountry(self):
-		maxTravel = 0
-		traveler = ""
-
-		for obj in travelerList:
-			if len(obj.traveledCountry) >= maxTravel:
-				traveler = obj.travelerName
-
-		return traveler
-
+		for obj in self.travelerList:
+			if len(obj.traveledCountry) > m:
+				m = len(obj.traveledCountry)
+				name.append(obj.travelerName) 
+		
+		return name[len(name)-1]
 
 if __name__ == "__main__":
 	travelerList = []
-	noOfTravelers = int(input())
+	n = int(input())
 
-	for i in range(noOfTravelers):
+	for i in range(n):
 		travelerName = input()
-		traveledCountry = input()
+		n1 = int(input())
+		traveledCountry = []
+		for j in range(n1):
+			cTraveled = input()
+			traveledCountry.append(cTraveled)
+		
 		travelerAge = int(input())
 		countryFrom = input()
 
 		T = Traveler(travelerName,traveledCountry,travelerAge,countryFrom)
-
 		travelerList.append(T)
+	
+	cname = input()
+	A = TravelAgency(travelerList)
+	c = A.countTravelersTraveledCountry(cname)
+	res = A.getTravelerTravelledMaxCountry()
 
-	TA = TravelAgency(travelerList)
-	country = input()
-
-	count = TA.countTravelersTraveledCountry(country)
-	maxTraveler = TA.getTravelerTraveledCountry()
-
-	print(count)
-	print(maxTraveler)
-
-
+	print(c)
+	print(res) 

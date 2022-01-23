@@ -5,59 +5,45 @@ class Player:
 		self.playedCountry = args[1]
 		self.playerAge = args[2]
 		self.countryFrom = args[3]
+	
+def countPlayer(pList,cname):
+	count = 0
+	for obj in pList:
+		if obj.countryFrom.lower() == cname.lower():
+			count += 1
+	
+	return count
 
+def getPlayerPlayedForMaxCountry(pList):
+	m = 0
+	name = ""
 
-def countPlayers(playerList,country):
-	pcount = 0
-
-	for obj in playerList:
-		if obj.countryFrom.lower() == country.lower():
-			pcount += 1
-
-	return pcount
-
-def getPlayerPlayedForMaxCountry(playerList):
-	playerDict = {}
-
-	for obj in playerList:
-		if obj.playerName in playerDict:
-			playerDict[obj.playerName] += 1
-		else:
-			playerDict[obj.playerName] = 1
-
-	max_played = 0
-	player_name = ""
-
-	for i in list(playerDict.keys()):
-		if playerDict[i] > max_played:
-			player_name = i
-
-	return player_name
+	for obj in pList:
+		if len(obj.playedCountry) > m:
+			m = len(obj.playedCountry)
+			name = obj.playerName
+	
+	return name
 
 if __name__ == "__main__":
+	players = []
 	n = int(input())
-	playerList = []
-
 	for i in range(n):
 		playerName = input()
 		n1 = int(input())
 		playedCountry = []
-
 		for j in range(n1):
-			countryName = input()
-			playedCountry.append(countryName)
-
+			cName = input()
+			playedCountry.append(cName)
+	
 		playerAge = int(input())
 		countryFrom = input()
 
 		P = Player(playerName,playedCountry,playerAge,countryFrom)
-
-		playerList.append(P)
+		players.append(P)
 
 	country = input()
-
-	playerCount = countPlayers(playerList,country)
-	player = getPlayerPlayedForMaxCountry(playerList)
-
-	print(playerCount)
-	print(player)
+	res = countPlayer(players, country)
+	res1 = getPlayerPlayedForMaxCountry(players)
+	print(res)
+	print(res1)
