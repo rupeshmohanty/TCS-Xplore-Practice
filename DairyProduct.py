@@ -1,5 +1,5 @@
 # Question Link: https://www.biochemithon.in/python-tutorials/python-programs/tcs-xplore-cpa-python-3/
-class Dairyproduct:
+class DairyProduct:
 	def __init__(self,*args):
 		self.dairyId = args[0]
 		self.dairyBrand = args[1]
@@ -9,24 +9,24 @@ class Dairyproduct:
 	
 class ProductGrade:
 	def __init__(self,*args):
-		self.dairyList = args[0]
-		self.weightageDict = args[1]
+		self.dList = args[0]
+		self.wDict = args[1]
 	
 	def priceBasedOnBrandAndType(self,dBrand,pType):
-		products = []
-		for obj in self.dairyList:
+		ans = []
+		for obj in self.dList:
 			if obj.dairyBrand.lower() == dBrand.lower() and obj.productType.lower() == pType.lower():
-				uprice = obj.price + obj.price*self.weightageDict[obj.grade]/100
-				products.append((dBrand,uprice)) 
+				obj.price = obj.price+obj.price*wDict[obj.grade]/100
+				ans.append((dBrand,obj.price))
 		
-		if(len(products) > 0):
-			return products
+		if len(ans) > 0:
+			return ans
 		else:
 			return None
 
 if __name__ == "__main__":
-	dairyProducts = []
 	n = int(input())
+	dairyList = []
 
 	for i in range(n):
 		dairyId = int(input())
@@ -34,24 +34,25 @@ if __name__ == "__main__":
 		productType = input()
 		price = int(input())
 		grade = input()
-		D = Dairyproduct(dairyId,dairyBrand,productType,price,grade)
-		dairyProducts.append(D)
+
+		D = DairyProduct(dairyId,dairyBrand,productType,price,grade)
+		dairyList.append(D)
 	
 	n1 = int(input())
 	wDict = dict()
 	for j in range(n1):
-		g = input()
+		wGrade = input()
 		weightage = int(input())
-		wDict[g] = weightage
+		wDict[wGrade] = weightage
 	
-	P = ProductGrade(dairyProducts,wDict)
+	P = ProductGrade(dairyList,wDict)
 	dBrand = input()
 	pType = input()
 	res = P.priceBasedOnBrandAndType(dBrand, pType)
 
-	if res:
-		for i in res:
-			print(f"Dairy brand: { i[0] }")
-			print(f"Dairy price: { i[1] }")
+	if len(res) > 0:
+		for k in res:
+			print(f'Dairy brand: {k[0]}')
+			print(f'Price: {k[1]}')
 	else:
-		print("No dairy products found!")
+		print("No dairy product found")
