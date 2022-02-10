@@ -2,39 +2,36 @@
 # Question 2
 class Stock:
     def __init__(self,*args):
-        self.StockName = args[0]
-        self.StockSector = args[1]
-        self.StockValue = args[2]
+        self.stockName = args[0]
+        self.stockSector = args[1]
+        self.stockValue = args[2]
 
 class StockDemo:
-    def __init__(self):
-        pass
+    def __init__(self,*args):
+        self.sList = args[0]
     
-    def getStockList(self,stockList,StockSector):
-        finList = []
-
-        for obj in stockList:
-            if obj.StockSector.lower() == StockSector.lower() and obj.StockValue > 500:
-                finList.append(obj)
-        
-        return finList
+    def getStockList(self,sector):
+        k = []
+        for obj in self.sList:
+            if obj.stockSector.lower() == sector.lower():
+                if obj.stockValue > 500:
+                    k.append(obj.stockName)
+        return k
 
 if __name__ == "__main__":
     stockList = []
     n = int(input())
 
     for i in range(n):
-        StockName = input()
-        StockSector = input()
-        StockValue = int(input())
-
-        S = Stock(StockName,StockSector,StockValue)
+        stockName = input()
+        stockSector = input()
+        stockValue = int(input())
+        S = Stock(stockName,stockSector,stockValue)
         stockList.append(S)
     
-    Sd = StockDemo()
+    D = StockDemo(stockList)
     sector = input()
+    res = D.getStockList(sector)
 
-    res = Sd.getStockList(stockList, sector)
-    
-    for k in res:
-        print(k.StockName)
+    for stock in res:
+        print(stock)
