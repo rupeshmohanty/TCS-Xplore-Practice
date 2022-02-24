@@ -1,59 +1,52 @@
-# Question Link: https://tcsxplore2020.blogspot.com/2020/02/python-code-solution.html
-# 25th January
-# Q2
-
+# Question Link: https://xploredimension.wordpress.com/2020/09/24/tcs-ira-opa-python/
+# Q6
 class Item:
 	def __init__(self,*args):
 		self.item_id = args[0]
 		self.item_name = args[1]
 		self.item_price = args[2]
 		self.quantity_available = args[3]
-
-	def calculate_price(self,itemQty):
-		price = 0
-		if itemQty >= self.quantity_available:
-			price = itemQty*self.item_price
-			return price
+	
+	def calc_price(self,qty):
+		if qty >= self.quantity_available:
+			return self.price*qty
 		else:
 			return 0
 
 class Store:
 	def __init__(self,*args):
 		self.item_list = args[0]
-
-	def generate_bill(self,item):
+	
+	def generate_bill(self,qtyDict):
 		total_bill = 0
-
-		for itemName, qnty in item.items():
-			for item_obj in self.item_list:
-				if item_obj.item_name==itemName:
-					total_bill += item_obj.calculate_price(qnty)
-
+		for key in qtyDict.keys():
+			for obj in self.item_list:
+				if key.lower() == obj.item_name.lower():
+					total_bill += obj.calc_price(qtyDict[key])
+	
 		return total_bill
 
 if __name__ == "__main__":
-	noOfItems = int(input())
+	n = int(input())
 	itemList = []
-	for i in range(noOfItems):
-		item_id = int(input())
-		item_name = input()
-		item_price = int(input())
-		quantity_available = int(input())
 
-		I = Item(item_id,item_name,item_price,quantity_available)
-
-		itemList.append(I)
-
-	dictLen = int(input())
-	itemDict = {}
-
-	for j in range(dictLen):
+	for i in range(n):
+		itemId = int(input())
 		itemName = input()
+		itemPrice = int(input())
+		qtyAvailable = int(input())
+
+		I = Item(itemId,itemName,itemPrice,qtyAvailable)
+		itemList.append(I)
+	
+	qd = {}
+	n1 = int(input())
+	for j in range(n1):
+		name = input()
 		qty = int(input())
-
-		itemDict[itemName] = qty
-
-	print(itemList)
-	print(itemList[0].calculate_price(2))
+		qd[name] = qty
+	
 	S = Store(itemList)
-	print(S.generate_bill(itemDict))
+	tot = S.generate_bill(qd)
+	print(tot)
+
